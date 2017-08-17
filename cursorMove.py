@@ -1,11 +1,23 @@
 import pynput as inp
 import _thread
 import time as T
+import tkinter as tk
 
 mouseController = inp.mouse.Controller()
+root = tk.Tk()
 
-shortcut = ['ctrl', 'shift', '?']
 currentlyPressedKeys = []
+
+def getShortcut():
+    keyboardCommand = {'shortcut': ['ctrl', 'shift', '?']}  #  Default unless specified
+    with open('./shortcut.cfg', 'r') as shortcutFile:
+        lines = shortcutFile.readlines()
+        for line in lines:
+            if line[0] != '#':
+                print(keyboardCommand['shortcut'])
+                keyboardCommand['shortcut'] = eval(line[:-1])
+                print(keyboardCommand['shortcut'])
+    return keyboardCommand['shortcut']
 
 
 def on_press(key):
@@ -44,6 +56,8 @@ def moveMouse():
 
 
 if __name__ == "__main__":
+    global shortcut
+    shortcut = getShortcut()
     with inp.keyboard.Listener(
             on_press=on_press,
             on_release=on_release) as listener:
