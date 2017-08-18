@@ -1,10 +1,8 @@
 import pynput as inp
 import _thread
 import time as T
-import tkinter as tk
 
 mouseController = inp.mouse.Controller()
-root = tk.Tk()
 
 currentlyPressedKeys = []
 
